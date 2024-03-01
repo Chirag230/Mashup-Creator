@@ -7,6 +7,7 @@ from pytube import YouTube
 from youtubesearchpython import VideosSearch
 
 OUTPUT_PATH = "static/mashup/"
+os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 def fetch_clips(artist_name, num_clips):
     """
@@ -60,9 +61,7 @@ def merge_audio_files(artist_name, save_path=OUTPUT_PATH, output_filename="mashu
     return final_audio_path
 
 def create_mix(artist_name, num_clips, duration, output_filename):
-    # Ensure the output directory exists
-    os.makedirs(OUTPUT_PATH, exist_ok=True)
-    
+
     save_path = OUTPUT_PATH + artist_name
     clips = fetch_clips(artist_name, num_clips)
 
