@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import shutil
 
 from moviepy.editor import *
 from pytube import YouTube
@@ -68,6 +69,18 @@ def create_mix(artist_name, num_clips, duration, output_filename):
     download_path=merge_audio_files(artist_name, save_path, output_filename)
     return download_path
 
+def delete_contents_in_mashup_folder():
+    folder_path = "static/mashup/"
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
+
 def main():
     st.title("Mashup Creator")
 
@@ -79,6 +92,7 @@ def main():
     if not output_filename.endswith("trimmed.mp3"):
         output_filename += ".mp3"
     if st.button("Create Mashup"):
+        delete_contents_in_mashup_folder()  # Delete existing contents
         download_path = create_mix(artist_name, num_clips, duration, output_filename)
         st.success("Mashup created successfully!")
         st.download_button(label="Download Mashup", data=open(download_path, 'rb'), file_name=output_filename)
