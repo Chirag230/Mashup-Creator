@@ -69,11 +69,11 @@ def create_mix(artist_name, num_clips, duration, output_filename):
     return download_path
 
 def main():
-    st.title("YouTube Mashup Creator")
+    st.title("Mashup Creator")
 
     artist_name = st.text_input("Enter Artist Name:")
     num_clips = st.number_input("Number of Clips:", min_value=1, step=1)
-    duration = st.number_input("Duration (seconds):", min_value=1, step=1)
+    duration = st.number_input("Duration per clip (seconds):", min_value=1, step=1)
     output_filename = st.text_input("Output Filename:")
 
     if not output_filename.endswith("trimmed.mp3"):
